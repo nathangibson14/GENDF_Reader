@@ -206,18 +206,17 @@ def MF6toH5(data,h5file,MT,n_legendre,n_dilutions,NGN):
     for i in range(n_legendre):
         for j in range(n_dilutions):
             grp["P"+str(i)]["dil"+str(j)].create_dataset("sigma",(sum(njj),1),'f')
-    
+
     x = 0
     for g in reversed(range(len(data["group"]))):
         y = 0
         for gg in range(njj[g]):
             for j in range(n_dilutions):
                 for i in range(n_legendre):
-                    #~ print g, y
-                    grp["P"+str(i)]["dil"+str(j)]["sigma"][x,0] = \
+                    grp["P"+str(i)]["dil"+str(j)]["sigma"][njj[g] - gg - 1 + x,0] = \
                         data['sigma'][g][y]
                     y+=1
-            x += 1
+        x += njj[g]
 
 #===============================================================================
 def main():
